@@ -1,0 +1,43 @@
+/* Container for all the buttons */
+.button-row {
+    display: flex; /* Use Grid for uniform button sizing */
+    margin-bottom: 10px;
+    gap: 10px; /* Space between rows */
+    justify-content: center; /* Center rows horizontally */
+  }
+  
+  /* Button Styling */
+  .calc-button {
+    display: flex; /* Flexbox to center text inside the button */
+    align-items: center; /* Vertically center text */
+    justify-content: center; /* Horizontally center text */
+    background-color: #e0e0e0; /* Light grey background */
+    border: none; /* Remove border */
+    border-radius: 8px; /* Rounded corners for modern look */
+    height: 60px;
+    width: 300px; /* Uniform height */
+    font-size: 1.5rem; /* Large text size */
+    color: #333; /* Dark text color */
+    cursor: pointer; /* Pointer cursor on hover */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+    transition: all 0.2s ease; /* Smooth hover effect */
+  }
+  
+  /* Hover and Active States */
+  .calc-button:hover {
+    background-color: #d0d0d0; /* Slightly darker on hover */
+    transform: scale(1.05); /* Slight zoom effect */
+  }
+  
+  .calc-button:active {
+    background-color: #c0c0c0; /* Darker when clicked */
+    transform: scale(0.95); /* Slight shrink effect */
+  }
+  
+  /* Responsive Design: Adjust button size on smaller screens */
+  @media (max-width: 600px) {
+    .calc-button {
+      height: 50px;
+      font-size: 1.2rem; /* Reduce font size */
+    }
+  }
