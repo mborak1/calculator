@@ -4,25 +4,64 @@ import { Injectable, signal } from "@angular/core";
 export class CalculatorService{
 
     calculationResult = signal<string>('0');
-    operations: Array<string> = ["*",'/','+','=','-'];
-    calculationOperation?: string;
-    leftNumber?: string;
-    rightNumber?: string;
-    isLeft: boolean = true;
+    operations: Array<string> = ["*",'/','+','-'];
+    numbers: string[] = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+    expression: (string | number)[] = [];
+    currentNumber: string = '';
+    result: number = 0;
 
-    calculateResult(input: string){
-        if(this.operations.includes(input)){
-            this.isLeft = !this.isLeft;
-            this.calculationOperation = input;
-            console.log(this.calculationOperation)
+    calculateResult(input: string) {
+        if (input === "=") {
+            return this.calculate();
         }
-        //Do while is left append numbers in array
-        if(this.isLeft){
-            this.leftNumber = this.leftNumber?.concat(input);
+        else if (this.numbers.includes(input)) {
+            this.currentNumber += input;
         }
-        //append numbers in other array if it is = perform calculation?
-        //But what if i have 9999 * 9999 * 9999 then i should first calculate first 2 and make 
-        //it as left and make 9999 as right if there is no result i move one step further and repeat
+        else {
+            if (this.currentNumber) {
+                this.addNumberToExpression();
+            }
+            this.expression.push(input);
+        }
+    }
+    private calculate() {
+        this.addNumberToExpression();
+        this.calculateExpression();
+        this.reset();
+        console.log("Calculation result is: " + this.result);
+    }
 
+    private addNumberToExpression() {
+        this.expression.push((+this.currentNumber));
+        this.currentNumber = '';
+    }
+    
+    calculateExpression() {
+        this.result = this.expression[0] as number;
+        for (var i = 0; i<this.expression.length; i +=2) {
+            
+            let secondValue = this.expression[i+2] as number;
+
+            switch(this.expression[i+1]){
+                case '+':
+                    this.result = this.result + secondValue;
+                    break;
+                case '*':
+                    this.result = this.result * secondValue;
+                    break;
+                case '/':
+                    this.result = this.result / secondValue;
+                    break;
+                case '-':
+                    this.result = this.result - secondValue;
+                    break;
+            }
+            this.calculationResult.set(this.result.toString());
+        }
+    }
+
+    reset() {
+        this.expression.length = 0; 
+        this.expression.push(this.result);
     }
 }
